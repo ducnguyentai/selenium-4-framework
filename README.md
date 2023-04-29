@@ -34,3 +34,12 @@ $ mvn clean test -Dbrowser=chrome/firefox/egde/browserstack
 ```shell
 $ allure generate --clean
 ```
+
+* #### Fix Error that jenkins html publisher show blank screen
+* Manage Jenkins->
+* Manage Nodes->
+* Click settings(gear icon)->
+* click Script console on left and type in the following command:
+```shell
+System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")
+```
