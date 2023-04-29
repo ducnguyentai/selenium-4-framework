@@ -1,4 +1,4 @@
-## This is a Simple project run on Selenium 4
+## This is a simple project run on Selenium 4 in order to learn and build up
 ****
 ## Tech stacks
 * Maven project
