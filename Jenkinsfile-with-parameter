@@ -10,7 +10,7 @@ pipeline {
                 // Get some code from a GitHub repository
                 git 'https://github.com/ducnguyentai/selenium-4-framework.git'
 
-                bat 'mvn clean test -Dcucumber.filter.tags="@regression"'
+                bat 'mvn clean test -Dcucumber.filter.tags="@regression" -Dbrowser=%Browser% -Denv=%Environment%'
             }
         }
         stage('Generate report') {
