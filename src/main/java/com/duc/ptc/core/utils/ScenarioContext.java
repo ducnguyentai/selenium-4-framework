@@ -1,4 +1,4 @@
-package com.duc.ptc.core.Utils;
+package com.duc.ptc.core.utils;
 
 import java.util.HashMap;
 import java.util.Map;

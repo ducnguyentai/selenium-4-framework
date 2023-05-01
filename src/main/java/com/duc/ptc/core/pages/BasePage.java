@@ -1,7 +1,7 @@
 package com.duc.ptc.core.pages;
 
-import com.duc.ptc.core.Utils.CommonUtils;
 import com.duc.ptc.core.driver.DriverFactory;
+import com.duc.ptc.core.utils.CommonUtils;
 import com.duc.ptc.core.webconst.Const;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -51,7 +51,7 @@ public class BasePage {
     }
 
     protected WebElement scrollDownToElement(WebElement element, int retry) {
-        for(int i = 1; i < retry; i++) {
+        for (int i = 1; i < retry; i++) {
             try {
                 if (element.isDisplayed()) {
                     logger.info("Retry number: " + i + " >>> Given element is visible.");
@@ -68,17 +68,17 @@ public class BasePage {
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + retry + "\n");
     }
-    protected WebElement scrollDownToElement(WebElement element) {
+    protected void scrollDownToElement(WebElement element) {
         for(int i = 1; i < Const.RETRY; i++) {
             try {
                 if (element.isDisplayed()) {
                     logger.info("Retry number: " + i + " >>> Given element is visible.");
                     //to avoid overlap with page footer
                     smallScroll("Down");
-                    return element;
+                    break;
                 } else {
-                    CommonUtils.delay(1);
                     scroll("Down");
+                    CommonUtils.delay(2);
                 }
             } catch (NoSuchElementException e) {
                 logger.debug("Retry number: " + i + " >>> Unable to find given element.");
@@ -88,7 +88,7 @@ public class BasePage {
     }
 
     protected WebElement scrollUpToElement(WebElement element, int retry) {
-        for(int i = 1; i < retry; i++) {
+        for (int i = 1; i < retry; i++) {
             try {
                 if (element.isDisplayed()) {
                     logger.info("Retry number: " + i + " >>> Given element is visible.");
@@ -105,8 +105,9 @@ public class BasePage {
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + retry + "\n");
     }
+
     protected WebElement scrollUpToElement(WebElement element) {
-        for(int i = 1; i < Const.RETRY; i++) {
+        for (int i = 1; i < Const.RETRY; i++) {
             try {
                 if (element.isDisplayed()) {
                     logger.info("Retry number: " + i + " >>> Given element is visible.");
@@ -123,14 +124,15 @@ public class BasePage {
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + Const.RETRY + "\n");
     }
+
     protected void scroll(String direction) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         switch (direction.toLowerCase()) {
             case "up":
-                js.executeScript("javascript:window.scrollBy(250,0)");
+                js.executeScript("window.scrollBy(250,0)");
                 break;
             case "down":
-                js.executeScript("javascript:window.scrollBy(0,250)");
+                js.executeScript("window.scrollBy(0,250)");
                 break;
             default:
                 throw new IllegalArgumentException("direction: '" + direction + "' is not supported. Try 'Down', 'Up'.");
@@ -159,8 +161,11 @@ public class BasePage {
                 JavascriptExecutor js = (JavascriptExecutor) driver;
                 js.executeScript("arguments[0].scrollIntoView(true);", element);
             }
-        } catch(NoSuchElementException e) {
-
+        } catch (NoSuchElementException ignored) {
         }
+    }
+
+    protected boolean waitForPageLoad() {
+        return wait.until(driver -> ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
     }
 }

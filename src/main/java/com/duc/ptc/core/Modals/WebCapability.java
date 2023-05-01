@@ -32,6 +32,6 @@ public class WebCapability {
         return "[Web Capability]: {\n"
                 + "\tBrowser: " + browser.toString() + "\n"
                 + "\tBase URL: " + baseURL + "\n"
-                + "}";
+                + "}\n";
     }
 }

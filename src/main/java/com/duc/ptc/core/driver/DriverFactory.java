@@ -1,6 +1,6 @@
 package com.duc.ptc.core.driver;
 
-import com.duc.ptc.core.Utils.CommonUtils;
+import com.duc.ptc.core.utils.CommonUtils;
 import com.duc.ptc.core.enums.Browser;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
@@ -28,14 +29,14 @@ public class DriverFactory {
     }
 
     public static WebDriver start(Browser browser) throws MalformedURLException {
-        if(browser == null) {
+        if (browser == null) {
             return null;
         }
-        switch(browser) {
+        switch (browser) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
-                if(isHeadless != null) {
+                if (isHeadless != null) {
                     if (isHeadless.equalsIgnoreCase("true") || isHeadless.equalsIgnoreCase("new")) {
                         logger.info("Headless mode detected. Add `--window-size=1900x1080` argument to Chrome Options");
 //                    chromeOptions.addArguments("--start-maximized");
@@ -49,7 +50,7 @@ public class DriverFactory {
             case EDGE:
                 WebDriverManager.edgedriver().setup();
                 EdgeOptions egdeOptions = new EdgeOptions();
-                if(isHeadless != null) {
+                if (isHeadless != null) {
                     if (isHeadless.equalsIgnoreCase("true") || isHeadless.equalsIgnoreCase("new")) {
                         logger.info("Headless mode detected. Add `--window-size=1900x1080` argument to Edge Options");
 //                    chromeOptions.addArguments("--start-maximized");
@@ -63,7 +64,7 @@ public class DriverFactory {
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                if(isHeadless != null) {
+                if (isHeadless != null) {
                     if (isHeadless.equalsIgnoreCase("true") || isHeadless.equalsIgnoreCase("new")) {
                         logger.info("Headless mode detected. Add `--window-size=1900x1080` argument to Firefox Options");
 //                    chromeOptions.addArguments("--start-maximized");
@@ -76,14 +77,17 @@ public class DriverFactory {
                 break;
             case BROWSERSTACK:
                 String BROWSERSTACK_URL;
+                String BROWSERSTACK_USERNAME;
+                String BROWSERSTACK_ACCESS_KEY;
                 DesiredCapabilities capabilities = new DesiredCapabilities();
                 Properties config = CommonUtils.readPropertiesFileFromTestResourceFolder("browserstack.properties");
                 capabilities.setCapability("os", config.get("os"));
                 capabilities.setCapability("browser", config.get("browser"));
                 capabilities.setCapability("version", config.get("version"));
                 capabilities.setCapability("name", config.get("session_name"));
-                BROWSERSTACK_URL = "https://" + config.getProperty("BROWSERSTACK_USERNAME")
-                        + ":" + config.getProperty("BROWSERSTACK_ACCESS_KEY") + "@hub-cloud.browserstack.com/wd/hub";
+                BROWSERSTACK_USERNAME = config.getProperty("BROWSERSTACK_USERNAME");
+                BROWSERSTACK_ACCESS_KEY = config.getProperty("BROWSERSTACK_ACCESS_KEY");
+                BROWSERSTACK_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY + "@hub-cloud.browserstack.com/wd/hub";
                 driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
                 break;
             default:

@@ -1,9 +1,9 @@
-package com.duc.ptc.core.Utils;
+package com.duc.ptc.core.utils;
 
 import com.duc.ptc.core.Modals.WebCapability;
 import com.duc.ptc.core.enums.Browser;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.Properties;
 
 public class Profile implements Serializable {
@@ -13,6 +13,7 @@ public class Profile implements Serializable {
     private Profile() {
         cap = new WebCapability();
     }
+
     private static class LazyInit {
         private static final Profile profile = new Profile();
     }
@@ -25,12 +26,11 @@ public class Profile implements Serializable {
         Properties config = CommonUtils.readPropertiesFileFromTestResourceFolder(fileName);
         cap.setBaseURL(config.getProperty("base_url"));
         //use to override browser key in properties file
-        if(System.getProperty("browser") != null) {
+        if (System.getProperty("browser") != null) {
             cap.setBrowser(Browser.valueOf(System.getProperty("browser").toUpperCase()));
         } else {
             cap.setBrowser(Browser.valueOf(config.getProperty("browser").toUpperCase()));
         }
-
         return cap;
     }
 }
