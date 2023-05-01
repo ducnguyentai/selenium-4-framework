@@ -28,7 +28,7 @@ public class DriverFactory {
 
     }
 
-    public static WebDriver start(Browser browser) throws MalformedURLException {
+    public static WebDriver start(Browser browser) {
         if (browser == null) {
             return null;
         }
@@ -88,7 +88,11 @@ public class DriverFactory {
                 BROWSERSTACK_USERNAME = config.getProperty("BROWSERSTACK_USERNAME");
                 BROWSERSTACK_ACCESS_KEY = config.getProperty("BROWSERSTACK_ACCESS_KEY");
                 BROWSERSTACK_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY + "@hub-cloud.browserstack.com/wd/hub";
-                driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
+                try {
+                    driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
+                } catch(MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 throw new IllegalArgumentException("browser: '" + browser + "' is not supported.");
