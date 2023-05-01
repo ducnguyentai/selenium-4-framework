@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    parameters {
+        choice(name: 'Browser', ['Chrome', 'Firefox', 'Edge', 'Browserstack'], description: 'Assigned browser to run automation tests on')
+        choice(name: 'Environment', ['prod_env', 'qc_env', 'dev_env'], description: 'Assigned environment to run automation tests on')
+    }
+    stages {
+        stage('Clone and Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/ducnguyentai/selenium-4-framework.git'
+
+                bat 'mvn clean test -Dcucumber.filter.tags="@regression"'
+            }
+        }
+        stage('Generate report') {
+            steps {
+                bat "allure generate --clean"
+            }
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.
+                success {
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'allure-report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: 'Report', useWrapperFileDirectly: true])
+                }
+                always {
+                }
+                failure{
+                }
+            }
+        }
+    }
+}
