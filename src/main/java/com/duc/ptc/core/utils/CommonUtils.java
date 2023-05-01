@@ -1,4 +1,4 @@
-package com.duc.ptc.core.Utils;
+package com.duc.ptc.core.utils;
 
 import com.google.common.util.concurrent.Uninterruptibles;
 import org.slf4j.Logger;

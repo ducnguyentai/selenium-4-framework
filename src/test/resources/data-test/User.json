@@ -1,0 +1,27 @@
+{
+  "PROD": [
+    {
+      "userType": "VIP",
+      "email": "VIP@gmail.com",
+      "password": "Pass@1234"
+    },
+    {
+      "userType": "VIP-Sport",
+      "email": "Sport@gmail.com",
+      "password": "Pass@1234"
+    }
+  ],
+  "QC": [
+    {
+      "userType": "VIP",
+      "email": "vip.qc.env@gmail.com",
+      "password": "Abcd1234"
+    },
+    {
+      "userType": "VIP-Sport",
+      "email": "sport.qc.env@gmail.com",
+      "password": "Abcd1234"
+    }
+  ],
+  "DEV": []
+}
