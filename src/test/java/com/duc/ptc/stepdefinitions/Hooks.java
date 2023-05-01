@@ -21,8 +21,6 @@ public class Hooks {
 
     @Before
     public void setup() throws MalformedURLException {
-        //setup for jenkins to show report
-        System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "");
         final String environmentProperties = System.getProperty("env");
         if (environmentProperties == null) {
             cap = Profile.createInstance().setEnvironmentVariables("prod_env.properties");
