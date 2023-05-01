@@ -20,7 +20,7 @@ public class Hooks {
     private WebCapability cap;
 
     @Before
-    public void setup() throws MalformedURLException {
+    public void setup() {
         final String environmentProperties = System.getProperty("env");
         if (environmentProperties == null) {
             cap = Profile.createInstance().setEnvironmentVariables("prod_env.properties");
