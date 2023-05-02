@@ -12,8 +12,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 public class Hooks {
     private static final Logger logger = LoggerFactory.getLogger(Hooks.class);
     private WebDriver driver;
@@ -27,7 +25,7 @@ public class Hooks {
         } else {
             cap = Profile.createInstance().setEnvironmentVariables(environmentProperties);
         }
-        driver = DriverFactory.start(cap.getBrowser());
+        driver = DriverFactory.initDriver(cap.getBrowser());
         driver.manage().window().maximize();
         if (environmentProperties != null) {
             //test environment need basic authentication

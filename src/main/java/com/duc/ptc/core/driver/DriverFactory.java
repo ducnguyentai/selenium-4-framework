@@ -28,7 +28,7 @@ public class DriverFactory {
 
     }
 
-    public static WebDriver start(Browser browser) {
+    public static WebDriver initDriver(Browser browser) {
         if (browser == null) {
             return null;
         }
@@ -104,6 +104,35 @@ public class DriverFactory {
         driver.manage().deleteAllCookies();
         driver.close();
         driver.quit();
+    }
+
+    public static String getBrowserName() {
+        if(driver instanceof ChromeDriver) {
+            return Browser.CHROME.toString();
+        }
+        if(driver instanceof FirefoxDriver) {
+            return Browser.FIREFOX.toString();
+        }
+        if(driver instanceof EdgeDriver) {
+            return Browser.EDGE.toString();
+        }
+        if(driver instanceof RemoteWebDriver) {
+            return Browser.BROWSERSTACK.toString();
+        }
+        return null;
+    }
+
+    public static String getDriverPath(Browser browser) {
+        switch (browser) {
+            case CHROME:
+                return WebDriverManager.chromedriver().getDownloadedDriverPath();
+            case EDGE:
+                return WebDriverManager.firefoxdriver().getDownloadedDriverPath();
+            case FIREFOX:
+                return WebDriverManager.edgedriver().getDownloadedDriverPath();
+            default:
+                throw new IllegalArgumentException("Browser: `" + browser + "` is not supported.");
+        }
     }
 
     public static WebDriver getDriver() {
