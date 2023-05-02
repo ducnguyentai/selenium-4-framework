@@ -1,0 +1,26 @@
+node {
+    def mvnHome
+    stage('Preparation') { // for display purposes
+        // Get some code from a GitHub repository
+        git 'https://github.com/ducnguyentai/selenium-4-framework.git'
+
+    }
+    stage('Build') {
+        if (isUnix()) {
+            sh 'mvn clean test -Dcucumber.filter.tags="@regression"'
+        } else {
+            bat'mvn clean test -Dcucumber.filter.tags="@regression"'
+        }
+
+    }
+    stage('Generate report') {
+        if (isUnix()) {
+            sh 'allure generate --clean'
+        } else {
+            bat'allure generate --clean'
+        }
+
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'allure-report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: 'Report', useWrapperFileDirectly: true])
+
+    }
+}
