@@ -1,5 +1,8 @@
 node {
-    def mvnHome
+    parameters {
+            choice(name: 'Browser', choices: ['Chrome', 'Firefox', 'Edge', 'Browserstack'], description: 'Assigned browser to run automation tests on')
+            choice(name: 'Environment', choices: ['prod_env', 'qc_env', 'dev_env'], description: 'Assigned environment to run automation tests on')
+        }
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
         git 'https://github.com/ducnguyentai/selenium-4-framework.git'
@@ -7,9 +10,9 @@ node {
     }
     stage('Build') {
         if (isUnix()) {
-            sh 'mvn clean test -Dcucumber.filter.tags="@regression"'
+            sh 'mvn clean test -Dcucumber.filter.tags="@regression" -Dbrowser=${Browser} -Denv=${Environment}.properties'
         } else {
-            bat 'mvn clean test -Dcucumber.filter.tags="@regression"'
+            bat 'mvn clean test -Dcucumber.filter.tags="@regression" -Dbrowser=%Browser% -Denv=%Environment%.properties'
         }
 
     }
