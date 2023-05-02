@@ -19,10 +19,6 @@ pipeline {
                 success {
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'allure-report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: 'Report', useWrapperFileDirectly: true])
                 }
-                always {
-                }
-                failure{
-                }
             }
         }
     }
