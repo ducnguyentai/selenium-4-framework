@@ -9,7 +9,7 @@ node {
         if (isUnix()) {
             sh 'mvn clean test -Dcucumber.filter.tags="@regression"'
         } else {
-            bat'mvn clean test -Dcucumber.filter.tags="@regression"'
+            bat 'mvn clean test -Dcucumber.filter.tags="@regression"'
         }
 
     }
@@ -17,10 +17,8 @@ node {
         if (isUnix()) {
             sh 'allure generate --clean'
         } else {
-            bat'allure generate --clean'
+            bat 'allure generate --clean'
         }
-
         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'allure-report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: 'Report', useWrapperFileDirectly: true])
-
     }
 }
