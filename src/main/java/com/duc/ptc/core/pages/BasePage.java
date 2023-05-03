@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 
 public class BasePage {
-    protected static final Logger logger = LoggerFactory.getLogger(BasePage.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(BasePage.class);
     protected WebDriver driver;
     private WebDriverWait wait;
 
@@ -54,7 +54,7 @@ public class BasePage {
         for (int i = 1; i < retry; i++) {
             try {
                 if (element.isDisplayed()) {
-                    logger.info("Retry number: " + i + " >>> Given element is visible.");
+                    LOGGER.info("Retry number: " + i + " >>> Given element is visible.");
                     //to avoid overlap with page footer
                     smallScroll("Down");
                     return element;
@@ -63,7 +63,7 @@ public class BasePage {
                     scroll("Down");
                 }
             } catch (NoSuchElementException e) {
-                logger.debug("Retry number: " + i + " >>> Unable to find given element.");
+                LOGGER.debug("Retry number: " + i + " >>> Unable to find given element.");
             }
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + retry + "\n");
@@ -72,7 +72,7 @@ public class BasePage {
         for(int i = 1; i < Const.RETRY; i++) {
             try {
                 if (element.isDisplayed()) {
-                    logger.info("Retry number: " + i + " >>> Given element is visible.");
+                    LOGGER.info("Retry number: " + i + " >>> Given element is visible.");
                     //to avoid overlap with page footer
                     smallScroll("Down");
                     break;
@@ -81,7 +81,7 @@ public class BasePage {
                     CommonUtils.delay(2);
                 }
             } catch (NoSuchElementException e) {
-                logger.debug("Retry number: " + i + " >>> Unable to find given element.");
+                LOGGER.debug("Retry number: " + i + " >>> Unable to find given element.");
             }
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + Const.RETRY + "\n");
@@ -91,7 +91,7 @@ public class BasePage {
         for (int i = 1; i < retry; i++) {
             try {
                 if (element.isDisplayed()) {
-                    logger.info("Retry number: " + i + " >>> Given element is visible.");
+                    LOGGER.info("Retry number: " + i + " >>> Given element is visible.");
                     //to avoid overlap with page header
                     smallScroll("Up");
                     return element;
@@ -100,7 +100,7 @@ public class BasePage {
                     scroll("Up");
                 }
             } catch (NoSuchElementException e) {
-                logger.debug("Retry number: " + i + " >>> Unable to find given element.");
+                LOGGER.debug("Retry number: " + i + " >>> Unable to find given element.");
             }
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + retry + "\n");
@@ -110,7 +110,7 @@ public class BasePage {
         for (int i = 1; i < Const.RETRY; i++) {
             try {
                 if (element.isDisplayed()) {
-                    logger.info("Retry number: " + i + " >>> Given element is visible.");
+                    LOGGER.info("Retry number: " + i + " >>> Given element is visible.");
                     //to avoid overlap with page header
                     smallScroll("Up");
                     return element;
@@ -119,7 +119,7 @@ public class BasePage {
                     scroll("Up");
                 }
             } catch (NoSuchElementException e) {
-                logger.debug("Retry number: " + i + " >>> Unable to find given element.");
+                LOGGER.debug("Retry number: " + i + " >>> Unable to find given element.");
             }
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + Const.RETRY + "\n");
@@ -156,7 +156,7 @@ public class BasePage {
     protected void scrollElementIntoView(WebElement element) {
         try {
             if (element.isDisplayed()) {
-                logger.info("Given element is already in view port");
+                LOGGER.info("Given element is already in view port");
             } else {
                 JavascriptExecutor js = (JavascriptExecutor) driver;
                 js.executeScript("arguments[0].scrollIntoView(true);", element);
