@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Hooks {
-    private static final Logger logger = LoggerFactory.getLogger(Hooks.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Hooks.class);
     private WebDriver driver;
     private WebCapability cap;
 
@@ -32,8 +32,8 @@ public class Hooks {
             if (!environmentProperties.contains("prod")) {
                 //cannot use HasAuthentication with Firefox driver and RemoteWebDriver
                 if (!(driver instanceof FirefoxDriver) && !(driver instanceof RemoteWebDriver)) {
-                    logger.info("[ENVIRONMENT] > Loading Test Environment... ");
-                    logger.info("[ENVIRONMENT] > Adding basic authentication to Test Environment... ");
+                    LOGGER.info("[ENVIRONMENT] > Loading Test Environment... ");
+                    LOGGER.info("[ENVIRONMENT] > Adding basic authentication to Test Environment... ");
                     ((HasAuthentication) driver).register(() -> new UsernameAndPassword("FRONTENDUSER", "aUCmNKHTCyLrW3eJ"));
                 }
             }

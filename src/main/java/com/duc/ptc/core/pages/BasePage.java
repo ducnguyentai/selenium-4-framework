@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 
 public class BasePage {
-    protected static final Logger logger = LoggerFactory.getLogger(BasePage.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(BasePage.class);
     protected WebDriver driver;
     private WebDriverWait wait;
 
@@ -51,75 +51,99 @@ public class BasePage {
     }
 
     protected WebElement scrollDownToElement(WebElement element, int retry) {
-        for (int i = 1; i < retry; i++) {
+        int currentTry = 1;
+        while(currentTry < retry) {
             try {
                 if (element.isDisplayed()) {
-                    logger.info("Retry number: " + i + " >>> Given element is visible.");
+                    LOGGER.info("Retry number: " + currentTry + " >>> Given element is visible.");
                     //to avoid overlap with page footer
                     smallScroll("Down");
                     return element;
                 } else {
-                    CommonUtils.delay(1);
-                    scroll("Down");
-                }
-            } catch (NoSuchElementException e) {
-                logger.debug("Retry number: " + i + " >>> Unable to find given element.");
-            }
-        }
-        throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + retry + "\n");
-    }
-    protected void scrollDownToElement(WebElement element) {
-        for(int i = 1; i < Const.RETRY; i++) {
-            try {
-                if (element.isDisplayed()) {
-                    logger.info("Retry number: " + i + " >>> Given element is visible.");
-                    //to avoid overlap with page footer
-                    smallScroll("Down");
-                    break;
-                } else {
+                    LOGGER.info("Retry number: " + currentTry + " >>> Given element is NOT visible.");
                     scroll("Down");
                     CommonUtils.delay(2);
+                    currentTry++;
                 }
             } catch (NoSuchElementException e) {
-                logger.debug("Retry number: " + i + " >>> Unable to find given element.");
+                LOGGER.info("Retry number: " + currentTry + " >>> Unable to find given element.");
+                currentTry++;
+                scroll("Down");
+                CommonUtils.delay(1);
+            }
+        }
+        throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + Const.RETRY + "\n");
+    }
+    protected WebElement scrollDownToElement(WebElement element) {
+        int currentTry = 1;
+        while(currentTry < Const.RETRY) {
+            try {
+                if (element.isDisplayed()) {
+                    LOGGER.info("Retry number: " + currentTry + " >>> Given element is visible.");
+                    //to avoid overlap with page footer
+                    smallScroll("Down");
+                    return element;
+                } else {
+                    LOGGER.info("Retry number: " + currentTry + " >>> Given element is NOT visible.");
+                    scroll("Down");
+                    CommonUtils.delay(2);
+                    currentTry++;
+                }
+            } catch (NoSuchElementException e) {
+                LOGGER.info("Retry number: " + currentTry + " >>> Unable to find given element.");
+                currentTry++;
+                scroll("Down");
+                CommonUtils.delay(1);
             }
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + Const.RETRY + "\n");
     }
 
     protected WebElement scrollUpToElement(WebElement element, int retry) {
-        for (int i = 1; i < retry; i++) {
+        int currentTry = 1;
+        while(currentTry < retry) {
             try {
                 if (element.isDisplayed()) {
-                    logger.info("Retry number: " + i + " >>> Given element is visible.");
-                    //to avoid overlap with page header
+                    LOGGER.info("Retry number: " + currentTry + " >>> Given element is visible.");
+                    //to avoid overlap with page footer
                     smallScroll("Up");
                     return element;
                 } else {
-                    CommonUtils.delay(1);
+                    LOGGER.info("Retry number: " + currentTry + " >>> Given element is NOT visible.");
                     scroll("Up");
+                    CommonUtils.delay(2);
+                    currentTry++;
                 }
             } catch (NoSuchElementException e) {
-                logger.debug("Retry number: " + i + " >>> Unable to find given element.");
+                LOGGER.info("Retry number: " + currentTry + " >>> Unable to find given element.");
+                currentTry++;
+                scroll("Up");
+                CommonUtils.delay(1);
             }
         }
-        throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + retry + "\n");
+        throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + Const.RETRY + "\n");
     }
 
     protected WebElement scrollUpToElement(WebElement element) {
-        for (int i = 1; i < Const.RETRY; i++) {
+        int currentTry = 1;
+        while(currentTry < Const.RETRY) {
             try {
                 if (element.isDisplayed()) {
-                    logger.info("Retry number: " + i + " >>> Given element is visible.");
-                    //to avoid overlap with page header
+                    LOGGER.info("Retry number: " + currentTry + " >>> Given element is visible.");
+                    //to avoid overlap with page footer
                     smallScroll("Up");
                     return element;
                 } else {
-                    CommonUtils.delay(1);
+                    LOGGER.info("Retry number: " + currentTry + " >>> Given element is NOT visible.");
                     scroll("Up");
+                    CommonUtils.delay(2);
+                    currentTry++;
                 }
             } catch (NoSuchElementException e) {
-                logger.debug("Retry number: " + i + " >>> Unable to find given element.");
+                LOGGER.info("Retry number: " + currentTry + " >>> Unable to find given element.");
+                currentTry++;
+                scroll("Up");
+                CommonUtils.delay(1);
             }
         }
         throw new NoSuchElementException("Cannot find given element: " + element + "\nRetry: " + Const.RETRY + "\n");
@@ -129,10 +153,10 @@ public class BasePage {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         switch (direction.toLowerCase()) {
             case "up":
-                js.executeScript("window.scrollBy(250,0)");
+                js.executeScript("javascript:window.scrollBy(250,0)");
                 break;
             case "down":
-                js.executeScript("window.scrollBy(0,250)");
+                js.executeScript("javascript:window.scrollBy(0,250)");
                 break;
             default:
                 throw new IllegalArgumentException("direction: '" + direction + "' is not supported. Try 'Down', 'Up'.");
@@ -156,7 +180,7 @@ public class BasePage {
     protected void scrollElementIntoView(WebElement element) {
         try {
             if (element.isDisplayed()) {
-                logger.info("Given element is already in view port");
+                LOGGER.info("Given element is already in view port");
             } else {
                 JavascriptExecutor js = (JavascriptExecutor) driver;
                 js.executeScript("arguments[0].scrollIntoView(true);", element);
