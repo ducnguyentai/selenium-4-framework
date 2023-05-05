@@ -25,7 +25,6 @@ public class Edge extends DriverBase {
             }
             egdeOptions.addArguments("--headless=" + isHeadless);
         }
-        driver = new EdgeDriver(egdeOptions);
-        return driver;
+        return new EdgeDriver(egdeOptions);
     }
 }

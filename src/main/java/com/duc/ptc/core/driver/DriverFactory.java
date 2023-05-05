@@ -10,32 +10,29 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class DriverFactory {
     private static WebDriver driver;
-    private static DriverBase driverBase;
 
     private DriverFactory() {
     }
 
     public static WebDriver initDriver(Browser browser) {
+        DriverBase driverBase;
         switch (browser) {
             case CHROME:
                 driverBase = new Chrome();
-                driver = driverBase.initDriver();
                 break;
             case EDGE:
                 driverBase = new Edge();
-                driver = driverBase.initDriver();
                 break;
             case FIREFOX:
                 driverBase = new FireFox();
-                driver = driverBase.initDriver();
                 break;
             case BROWSERSTACK:
                 driverBase = new Browserstack();
-                driver = driverBase.initDriver();
                 break;
             default:
                 throw new IllegalArgumentException("browser: '" + browser + "' is not supported.");
         }
+        driver = driverBase.initDriver();
         return driver;
     }
 

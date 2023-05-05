@@ -4,8 +4,6 @@ import com.duc.ptc.core.utils.CommonUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,10 +25,10 @@ public class Browserstack extends DriverBase {
         BROWSERSTACK_ACCESS_KEY = config.getProperty("BROWSERSTACK_ACCESS_KEY");
         BROWSERSTACK_URL = "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY + "@hub-cloud.browserstack.com/wd/hub";
         try {
-            driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
+            return new RemoteWebDriver(new URL(BROWSERSTACK_URL), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        return driver;
+        throw new RuntimeException("Cannot initialize Browserstack driver");
     }
 }

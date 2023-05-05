@@ -25,7 +25,6 @@ public class FireFox extends DriverBase {
             }
             firefoxOptions.addArguments("--headless=" + isHeadless);
         }
-        driver = new FirefoxDriver(firefoxOptions);
-        return driver;
+        return new FirefoxDriver(firefoxOptions);
     }
 }

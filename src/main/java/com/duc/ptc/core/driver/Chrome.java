@@ -25,7 +25,6 @@ public class Chrome extends DriverBase {
             }
             chromeOptions.addArguments("--headless=" + isHeadless);
         }
-        driver = new ChromeDriver(chromeOptions);
-        return driver;
+        return new ChromeDriver(chromeOptions);
     }
 }
