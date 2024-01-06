@@ -3,13 +3,11 @@ package com.duc.ptc.core.pages;
 import com.duc.ptc.core.driver.DriverFactory;
 import com.duc.ptc.core.utils.CommonUtils;
 import com.duc.ptc.core.webconst.Const;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,12 +16,16 @@ import java.time.Duration;
 public class BasePage {
     protected static final Logger LOGGER = LoggerFactory.getLogger(BasePage.class);
     protected WebDriver driver;
-    private WebDriverWait wait;
+    private final Wait<WebDriver> wait;
 
     public BasePage() {
         driver = DriverFactory.getDriver();
         PageFactory.initElements(driver, this);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(Const.WAIT_DURATION));
+        wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(Const.WAIT_DURATION))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
     }
 
     protected WebElement waitForElementVisible(WebElement element) {

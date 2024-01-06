@@ -8,8 +8,12 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DriverFactory {
     private static WebDriver driver;
+    private static Map<Long, WebDriver> map = new HashMap<>();
 
     private DriverFactory() {
     }
@@ -33,6 +37,7 @@ public class DriverFactory {
                 throw new IllegalArgumentException("browser: '" + browser + "' is not supported.");
         }
         driver = driverBase.initDriver();
+        map.put(Thread.currentThread().getId(), driver);
         return driver;
     }
 
@@ -72,6 +77,6 @@ public class DriverFactory {
     }
 
     public static WebDriver getDriver() {
-        return driver;
+        return map.get(Thread.currentThread().getId());
     }
 }

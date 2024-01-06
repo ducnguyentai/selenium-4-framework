@@ -69,7 +69,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>4.4.0</version>
+            <version>5.6.2</version>
         </dependency>
         <!--Allure Cucumber Dependency-->
         <dependency>
@@ -93,15 +93,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
+                <version>3.0.0-M7</version>
                 <configuration>
                     <includes>
                         <include>**/Runner.class</include>
                     </includes>
-                    <testFailureIgnore>true</testFailureIgnore>
-<!--                    <parallel>suites</parallel>-->
-<!--                    <perCoreThreadCount>true</perCoreThreadCount>-->
-<!--                    <threadCountSuites>5</threadCountSuites>-->
+<!--                    <parallel>methods</parallel>-->
+<!--                    <useUnlimitedThreads>true</useUnlimitedThreads>-->
+<!--                    <testFailureIgnore>true</testFailureIgnore>-->
+<!--                    <threadCount>4</threadCount>-->
+<!--                    <perCoreThreadCount>false</perCoreThreadCount>-->
                 </configuration>
             </plugin>
         </plugins>
